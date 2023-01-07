@@ -43,7 +43,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Change Title in Webpack Config',
+      title: 'Where\'s Waldo',
       filename: 'index.html',
       template: './src/index.html',
     }),
