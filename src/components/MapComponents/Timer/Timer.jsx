@@ -12,7 +12,7 @@ function Timer({ counter, setCounter, counterStop }) {
   }, [counter, counterStop]);
 
   return (
-    <p className="text-6xl text-center font-bold">
+    <p className="text-2xl text-center font-bold">
       Time Elapsed:
       {counter}
       s
