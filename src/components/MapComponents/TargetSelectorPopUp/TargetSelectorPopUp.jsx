@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function TargetSelectorPopUp({ xCoord, yCoord }) {
+function TargetSelectorPopUp({ xCoord, yCoord, characters }) {
   const [style, setStyle] = useState({
     top: `${yCoord}px`,
     left: `${xCoord}px`,
@@ -17,10 +17,12 @@ function TargetSelectorPopUp({ xCoord, yCoord }) {
   return (
     <div style={style} className="absolute flex">
       <div className="target-box w-9 h-9 border-4 border-dashed border-red-500" />
-      <div className="w-32 p-2 text-white bg-slate-700 flex flex-col items-center gap-2">
-        <button type="button" className="w-full h-7 border-2 border-white">One</button>
-        <button type="button" className="w-full h-7 border-2 border-white">Two</button>
-        <button type="button" className="w-full h-7 border-2 border-white">Three</button>
+      <div className="min-w-[128px] p-2 text-white bg-slate-700 flex flex-col items-center gap-2">
+        {
+          characters.map((character) => (
+            <button key={character.name} type="button" className="w-full border-2 border-white p-2">{character.name}</button>
+          ))
+        }
       </div>
     </div>
   );
