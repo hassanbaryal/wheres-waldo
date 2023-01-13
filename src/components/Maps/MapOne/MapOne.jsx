@@ -46,7 +46,7 @@ function MapOne() {
     document.querySelector('img').addEventListener('click', handleClick);
 
     return () => {
-      document.querySelector('img').removeEventListener('click', handleClick);
+      if (document.querySelector('img')) document.querySelector('img').removeEventListener('click', handleClick);
     };
   }, [popUpVisible]);
 
