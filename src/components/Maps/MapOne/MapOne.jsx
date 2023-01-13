@@ -4,6 +4,7 @@ import Timer from '../../MapComponents/Timer/Timer';
 import mapOneImg from '../../../assets/map-one.jpg';
 import TargetSelectorPopUp from '../../MapComponents/TargetSelectorPopUp/TargetSelectorPopUp';
 import Targets from '../../MapComponents/Targets/Targets';
+import Loader from '../../Loader/Loader';
 
 function MapOne() {
   // For timer
@@ -14,22 +15,24 @@ function MapOne() {
   const [xCoord, setXCoord] = useState(0);
   const [yCoord, setYCoord] = useState(0);
   // Variable to store map data (fetch it). Temporarily filled
-  const [map, setMap] = useState({
-    characters: [
-      {
-        name: 'Homer Simpson (The Simpsons)',
-        location: null,
-      },
-      {
-        name: 'Aang (ATLA)',
-        location: null,
-      },
-      {
-        name: 'Stewie (Family guy)',
-        location: null,
-      },
-    ],
-  });
+  const [map, setMap] = useState(null);
+
+  // {
+  //   characters: [
+  //     {
+  //       name: 'Homer Simpson (The Simpsons)',
+  //       location: null,
+  //     },
+  //     {
+  //       name: 'Aang (ATLA)',
+  //       location: null,
+  //     },
+  //     {
+  //       name: 'Stewie (Family guy)',
+  //       location: null,
+  //     },
+  //   ],
+  // }
 
   const handleClick = (e) => {
     if (!popUpVisible) {
@@ -43,12 +46,18 @@ function MapOne() {
   };
 
   useEffect(() => {
-    document.querySelector('img').addEventListener('click', handleClick);
+    if (map) document.querySelector('img').addEventListener('click', handleClick);
 
     return () => {
       if (document.querySelector('img')) document.querySelector('img').removeEventListener('click', handleClick);
     };
   }, [popUpVisible]);
+
+  if (!map) {
+    return (
+      <Loader />
+    );
+  }
 
   return (
     <div className="relative h-screen flex flex-col overflow-auto">
