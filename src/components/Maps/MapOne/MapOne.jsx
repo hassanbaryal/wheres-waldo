@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
 import Timer from '../../MapComponents/Timer/Timer';
 import mapOneImg from '../../../assets/map-one.jpg';
 import TargetSelectorPopUp from '../../MapComponents/TargetSelectorPopUp/TargetSelectorPopUp';
 import Targets from '../../MapComponents/Targets/Targets';
 import Loader from '../../Loader/Loader';
+import { app, db } from '../../../firebase-config';
 
 function MapOne() {
+  const collectionRef = collection(db, 'maps');
   // For timer
   const [counter, setCounter] = useState(0);
   const [counterStop, setCounterStop] = useState(false);
@@ -45,13 +48,26 @@ function MapOne() {
     return false;
   };
 
-  useEffect(() => {
-    if (map) document.querySelector('img').addEventListener('click', handleClick);
+  const getData = async () => {
+    try {
+      const response = await getDocs(collectionRef);
+      const allMaps = response.docs.map((item) => item.data());
+      setMap(allMaps.find((item) => item.name === 'mapone'));
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    if (document.querySelector('img')) document.querySelector('img').addEventListener('click', handleClick);
     return () => {
       if (document.querySelector('img')) document.querySelector('img').removeEventListener('click', handleClick);
     };
-  }, [popUpVisible]);
+  }, [popUpVisible, map]);
 
   if (!map) {
     return (
